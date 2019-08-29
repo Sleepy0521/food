@@ -15,6 +15,8 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
     </properties>
 
@@ -91,8 +93,8 @@
         </dependency>
     </dependencies>
     <profiles>
-        <!-- 本次测试环境 -->
         <profile>
+            <!-- 本地开发环境 -->
             <id>dev</id>
             <properties>
                 <profiles.active>dev</profiles.active>
@@ -101,8 +103,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        <!-- 正式公网生产环境 -->
         <profile>
+            <!-- 测试环境 -->
             <id>pro</id>
             <properties>
                 <profiles.active>pro</profiles.active>
@@ -112,14 +114,26 @@
     </profiles>
     <build>
         <finalName>food</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <excludes>
+                    <exclude>dev/*</exclude>
+                    <exclude>pro/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
             </plugin>
+
         </plugins>
     </build>
 
