@@ -1,0 +1,37 @@
+server:
+  port: 80
+logging:
+  level: debug
+spring:
+  datasource:
+    username: root
+    password: root
+    #allowMultiQueries=true执行多条sql
+    #serverTimezone=UTC mysql时区异常
+    #useSSL=false 连接时不进行校验
+    url: jdbc:mysql://106.15.92.192:3306/ftc?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=UTC&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #指定数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    #指定数据源的配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: false
+    #   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,logback
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml  #mapper xml文件的路径
+  type-aliases-package: com.sleepy.food.entity  #实体类的路径
+  configuration:
+    map-underscore-to-camel-case: false
